@@ -1,51 +1,30 @@
-<template>
-  <div class="inputBox shadow">
-    <input type="text" v-model="newTodoItem" @keyup.enter="addTodo">
+ <template>
+  <div class="inputBox">
+    <input type="text" v-model="newTodoItem">
+    <!-- <button class="addContainer" v-on:click="addTodo">add</button> -->
     <span class="addContainer" v-on:click="addTodo">
       <i class="addBtn fas fa-plus" aria-hidden="true"></i>
-    </span>
-
-    <Modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">
-        경고 
-        <i class="closeModalBtn fa fa-times" 
-          aria-hidden="true" 
-          @click="showModal = false">
-        </i>
-      </h3>
-      <p slot="body">할 일을 입력하세요.</p>
-    </Modal>
+    </span> 
   </div>
 </template>
 
 <script>
-import Modal from './common/Modal.vue'
-
 export default {
-  data: function() {
-    return {
-      newTodoItem: '', 
-      showModal : false
+  data : function(){
+    return{
+      newTodoItem : ""
     }
   },
-  methods: {
-    addTodo: function() {
-      if (this.newTodoItem !== '') {
-        const item = this.newTodoItem.trim();
-        //this.$emit('addItem', this.newTodoItem);
-        //기존의 event $emit 대신 commit을 사용 
-        this.$store.commit('addOneItem', item); 
+  methods : {
+    addTodo : function(){
+       if (this.newTodoItem !== '') {
+        this.$emit('addTodoItem', this.newTodoItem); 
         this.clearInput();
-      }else{
-        this.showModal = !this.showModal
       }
-    },
-    clearInput: function() {
-      this.newTodoItem = '';
+    }, 
+    clearInput : function(){
+      this.newTodoItem = ''; 
     }
-  }, 
-  components :{
-    Modal : Modals
   }
 }
 </script>
@@ -69,6 +48,7 @@ input:focus {
   background: linear-gradient(to right, #6478FB, #8763FB);
   display: block;
   width: 3rem;
+  height : 3.1rem;
   border-radius: 0 5px 5px 0;
 }
 .addBtn {
